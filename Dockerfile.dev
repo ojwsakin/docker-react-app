@@ -1,0 +1,17 @@
+# 개발환경을 위한 도커파일
+# build 하기 위해서는 docker build -f Dockerfile.dev . 을 해줘야 한다
+
+FROM node:alpine
+
+WORKDIR /usr/src/app
+
+COPY package.json ./
+
+RUN npm install
+
+# node_modules가 위에서 설치가 되므로 아래에 복사하면 시간만 늘어난다 (중복된 것을 복사하므로)
+# 따라서 도커 환경에서 리엑트를 돌린다면 로컬에 있는 node_modules는 지워도 무방하다
+COPY ./ ./
+
+CMD ["npm", "run", "start"]
+
